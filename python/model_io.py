@@ -67,7 +67,7 @@ def read(path, fmt = None):
     '''
 
     if not os.path.exists(path):
-        raise IOError('model_io.read : No such file or directory: {0}'.format(path))
+        raise IOError('model_io.read : No such file or directory: {0}'.format(os.path.abspath(path)))
 
     if fmt is None: #try to infer format
         fmt = os.path.splitext(path)[1].replace('.','').lower()
@@ -76,14 +76,14 @@ def read(path, fmt = None):
 
 
 def _read_pickled(path):
-    print 'loading pickled model from',path
-    return pickle.load(open(path,'rb'))
+    print ('loading pickled model from'.format(os.path.abspath(path)))
+    return pickle.load(open(path,'rb'), encoding='latin1')
 
 
 def _read_txt(path):
-    print 'loading plain text model from', path
+    print ('loading plain text model from {}'.format(os.path.abspath(path)))
 
-    with open(path, 'rb') as f:
+    with open(path, 'r') as f:
         content = f.read().split('\n')
 
         modules = []
@@ -95,7 +95,7 @@ def _read_txt(path):
                 m = int(lineparts[1])
                 n = int(lineparts[2])
                 mod = Linear(m,n)
-                for i in xrange(m):
+                for i in range(m):
                     c+=1
                     mod.W[i,:] = np.array([float(val) for val in content[c].split() if len(val) > 0])
 
@@ -159,22 +159,23 @@ def write(model, path, fmt = None):
     if fmt is None:
         fmt = os.path.splitext(path)[1].replace('.','').lower()
 
+
     _write_as[fmt](model, path)
 
 
 def _write_pickled(model, path):
-    print 'writing model pickled to',path
+    print ('writing model pickled to {}'.format(os.path.abspath(path)))
     with open(path, 'wb') as f:
         pickle.dump(model,f,pickle.HIGHEST_PROTOCOL)
 
 
 def _write_txt(model,path):
-    print 'writing model as plain text to',path
+    print ('writing model as plain text to {}'.format(os.path.abspath(path)))
 
     if not isinstance(model, Sequential):
         ''' TODO: Error Handling '''
 
-    with open(path, 'wb') as f:
+    with open(path, 'w') as f:
         for m in model.modules:
             if isinstance(m,Linear):
                 f.write('{0} {1} {2}\n'.format(m.__class__.__name__,m.m,m.n))
@@ -191,5 +192,3 @@ _write_as = {'pickled': _write_pickled,\
             '':_write_pickled,\
             'txt':_write_txt,\
             }
-
-

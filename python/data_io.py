@@ -43,7 +43,7 @@ def read(path, fmt = None):
 
     '''
     if not os.path.exists(path):
-        raise IOError('data_io.read : No such file or directory: {0}'.format(path))
+        raise IOError('data_io.read : No such file or directory: {0}'.format(os.path.abspath(path)))
 
     if fmt is None: #try to infer format
         fmt = os.path.splitext(path)[1].replace('.','').lower()
@@ -54,17 +54,17 @@ def read(path, fmt = None):
 
 
 def _read_np(path):
-    print 'loading np-formatted data from',path
+    print ('loading np-formatted data from {}'.format(os.path.abspath(path)))
     return np.load(path)
 
 
 def _read_mat(path):
-    print 'loading matlab formatted data from', path
+    print ('loading matlab formatted data from {}'.format(os.path.abspath(path)))
     return scio.loadmat(path)['data']
 
 
 def _read_txt(path):
-    print 'loading plain text data from',path
+    print ('loading plain text data from {}'.format(os.path.abspath(path)))
     return np.loadtxt(path)
 
 _read_as = {'npy':_read_np,\
@@ -109,15 +109,15 @@ def write(data, path, fmt = None):
 
 
 def _write_np(data, path):
-    print  'writing data in npy-format to',path
+    print  ('writing data in npy-format to {}'.format(os.path.abspath(path)))
     np.save(path, data)
 
 def _write_mat(data, path):
-    print 'writing data in mat-format to',path
+    print ('writing data in mat-format to {}'.format(os.path.abspath(path)))
     scio.savemat(path, {'data':data}, appendmat = False)
 
 def _write_txt(data, path):
-    print 'writing data as plain text to',path
+    print ('writing data as plain text to {}'.format(os.path.abspath(path)))
     np.savetxt(path, data)
 
 
