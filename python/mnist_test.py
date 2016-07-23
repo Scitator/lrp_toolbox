@@ -24,9 +24,9 @@ import data_io
 import render
 
 #load a neural network, as well as the MNIST test data and some labels
-nn = model_io.read('../models/MNIST/mnist_net_small.nn')
-X = data_io.read('../data/MNIST/test_images.npy')
-Y = data_io.read('../data/MNIST/test_labels.npy')
+nn = model_io.read('./models/MNIST/mnist_net_small.nn')
+X = data_io.read('./data/MNIST/test_images.npy')
+Y = data_io.read('./data/MNIST/test_labels.npy')
 
 # transfer pixel values from [0 255] to [-1 1] to satisfy the expected input / training paradigm of the model
 X =  X / 127.5 - 1
@@ -68,8 +68,8 @@ for i in I[:12]:
     #render input and heatmap as rgb images
     digit = render.digit_to_rgb(x, scaling = 3)
     hm = render.hm_to_rgb(R, X = x, scaling = 3, sigma = 2)
-    digit_hm = render.save_image([digit,hm],'../heatmap.png')
-    data_io.write(R,'../heatmap.npy')
+    digit_hm = render.save_image([digit,hm],'./heatmap.png')
+    data_io.write(R,'./heatmap.npy')
 
     #display the image as written to file
     plt.imshow(digit_hm, interpolation = 'none')
