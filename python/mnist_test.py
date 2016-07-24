@@ -24,12 +24,13 @@ import data_io
 import render
 
 #load a neural network, as well as the MNIST test data and some labels
-nn = model_io.read('./models/MNIST/mnist_net_small.nn')
-X = data_io.read('./data/MNIST/test_images.npy')
-Y = data_io.read('./data/MNIST/test_labels.npy')
+nn = model_io.read('../models/MNIST/mnist_net_small.nn')
+X = data_io.read('../data/MNIST/test_images.npy')
+Y = data_io.read('../data/MNIST/test_labels.npy')
 
 # transfer pixel values from [0 255] to [-1 1] to satisfy the expected input / training paradigm of the model
-X =  X / 127.5 - 1
+# X =  X / 127.5 - 1
+X =  X / 255.0
 
 # transform numeric class labels to vector indicator for uniformity. assume presence of all classes within the label set
 I = Y[:,0].astype(int)
@@ -37,8 +38,8 @@ Y = np.zeros([X.shape[0],np.unique(Y).size])
 Y[np.arange(Y.shape[0]),I] = 1
 
 #permute data order for demonstration. or not. your choice.
-# I = np.arange(X.shape[0])
-I = np.random.permutation(I)
+I = np.arange(X.shape[0])
+# I = np.random.permutation(I)
 
 #predict and perform LRP for the 10 first samples
 for i in I[:12]:
@@ -64,7 +65,8 @@ for i in I[:12]:
     yselect = (np.arange(Y.shape[1])[na,:] == yselect)*1.
     R = nn.lrp(yselect) #compute first layer relvance for an arbitrarily selected class
     '''
-
+    # like SA sqr
+    # R = np.abs(R)
     #render input and heatmap as rgb images
     digit = render.digit_to_rgb(x, scaling = 3)
     hm = render.hm_to_rgb(R, X = x, scaling = 3, sigma = 2)

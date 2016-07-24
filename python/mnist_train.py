@@ -14,11 +14,12 @@ import model_io
 import data_io
 
 # load  MNIST test data and some labels
-X = data_io.read('./data/MNIST/test_images.npy')
-Y = data_io.read('./data/MNIST/test_labels.npy')
+X = data_io.read('../data/MNIST/test_images.npy')
+Y = data_io.read('../data/MNIST/test_labels.npy')
 
 # transfer pixel values from [0 255] to [-1 1] to satisfy the expected input / training paradigm of the model
-X =  X / 127.5 - 1
+# X =  X / 127.5 - 1
+X =  X / 255.0
 
 # transform numeric class labels to vector indicator for uniformity. assume presence of all classes within the label set
 I = Y[:,0].astype(int)
@@ -46,4 +47,4 @@ nn = modules.Sequential(
 nn.train(X,Y, batchsize = 16)
 
 # save the network
-model_io.write(nn, './models/MNIST/mnist_net_small.nn')
+model_io.write(nn, '../models/MNIST/mnist_net_small.nn')
