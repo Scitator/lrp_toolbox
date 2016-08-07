@@ -23,8 +23,8 @@ X =  X / 255.0
 
 # transform numeric class labels to vector indicator for uniformity. assume presence of all classes within the label set
 I = Y[:,0].astype(int)
-Y = np.zeros([X.shape[0],np.unique(Y).size])
-Y[np.arange(Y.shape[0]),I] = 1
+Y = np.zeros([X.shape[0], np.unique(Y).size])
+Y[np.arange(Y.shape[0]), I] = 1
 
 #permute data order for demonstration. or not. your choice.
 I = np.arange(X.shape[0])
@@ -33,14 +33,10 @@ I = np.arange(X.shape[0])
 # build a network
 nn = modules.Sequential(
     [modules.Linear(784, 256),
-     modules.Rect(),
+     modules.Tanh(),
      modules.Linear(256, 256),
-     modules.Rect(),
+     modules.Tanh(),
      modules.Linear(256, 10),
-    #  modules.Tanh(),
-    #  modules.Linear(256, 256),
-    #  modules.Tanh(),
-    #  modules.Linear(256, 10),
      modules.SoftMax()])
 
 # train the network.

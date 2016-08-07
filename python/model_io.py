@@ -11,7 +11,7 @@
 import os
 import pickle
 import numpy as np
-from modules import Sequential,Linear,Tanh,Rect,SoftMax
+from modules import Sequential, Linear, Tanh, Rect, SoftMax
 
 #--------------------
 #   model reading
@@ -77,7 +77,7 @@ def read(path, fmt = None):
 
 def _read_pickled(path):
     print ('loading pickled model from'.format(os.path.abspath(path)))
-    return pickle.load(open(path,'rb'), encoding='latin1')
+    return pickle.load(open(path,'rb'))
 
 
 def _read_txt(path):
