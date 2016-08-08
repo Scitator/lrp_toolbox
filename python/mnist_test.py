@@ -1,4 +1,4 @@
- '''
+'''
 @author: Kolesnikov Sergey
 @maintainer: Kolesnikov Sergey
 @contact: sergey.s.kolesnikov@phystech.edu
@@ -29,8 +29,8 @@ X = data_io.read('../data/MNIST/test_images.npy')
 Y = data_io.read('../data/MNIST/test_labels.npy')
 
 # transfer pixel values from [0 255] to [-1 1] to satisfy the expected input / training paradigm of the model
-# X =  X / 127.5 - 1
-X =  X / 255.0
+X =  X / 127.5 - 1
+# X =  X / 255.0
 
 # transform numeric class labels to vector indicator for uniformity. assume presence of all classes within the label set
 I = Y[:,0].astype(int)

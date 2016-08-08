@@ -117,7 +117,9 @@ class Linear(Module):
 		Z = self.W[na,:,:]*self.X[:,:,na] # localized preactivations
 		Zs = Z.sum(axis=1)[:,na,:] +self.B[na,na,:] # preactivations
 
-		# add slack to denominator. we require sign(0) = 1. since np.sign(0) = 0 would defeat the purpose of the numeric stabilizer we do not use it.
+		# add slack to denominator. we require sign(0) = 1.
+		# since np.sign(0) = 0 would defeat the purpose
+		# of the numeric stabilizer we do not use it.
 		Zs += epsilon * ((Zs >= 0)*2-1)
 		return ((Z / Zs) * R[:,na,:]).sum(axis=2)
 
@@ -304,7 +306,10 @@ class Sequential(Module):
 
 
 
-	def train(self, X, Y,  Xval = [], Yval = [],  batchsize = 25, iters = 10000, lrate = 0.005, status = 250, shuffle_data = True):
+	def train(self, X, Y,
+				Xval = [], Yval = [],
+				batchsize = 25, iters = 10000,
+				lrate = 0.005, status = 250, shuffle_data = True):
 		'''
 			X the training data
 			Y the training labels
@@ -313,9 +318,11 @@ class Sequential(Module):
 			Yval the validation data labels
 
 			batchsize the batch size to use for training
-			iters max number of training iterations . TODO: introduce convergence criterion
+			iters max number of training iterations.
+			@TODO: introduce convergence criterion
 			lrate the learning rate
-			status number of iterations of silent training until status print and evaluation on validation data.
+			status number of iterations of silent training until status print
+			and evaluation on validation data.
 			shuffle_data permute data order prior to training
 		'''
 
